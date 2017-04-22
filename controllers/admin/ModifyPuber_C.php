@@ -1,6 +1,5 @@
 <?php 
 	require('../../models/AdminModel_M.php');
-	require('../../models/AdminModel_M.php');
 	/**
 	*	@param $Flag:101->success positive:fail
 	*/
@@ -11,8 +10,7 @@
 
 	$oldname = $_POST['oldname'];
 	$newname = $_POST['newname'];
-	echo "test";
-	return;
+	
 	$result = modifyPuber($oldname,$newname);
 	if($result){
 		echo urldecode(json_encode(getInfo(101,"修改成功")));
