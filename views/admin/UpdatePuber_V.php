@@ -42,7 +42,7 @@
 						console.error(e);
 						return;
 					}
-					alert(data.Flag);
+					alert(data.Content);
 					getPuber();
 				}
 			})

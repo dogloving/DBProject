@@ -3,7 +3,7 @@
 		$host = 'localhost';
 		$database = 'dbproject';
 		$username = 'root';
-		$password = 'root';
+		$password = 'mysql930';
 		$pdo = new PDO("mysql:host=$host;dbname=$database",$username,$password);
 		$pdo->exec('set names "utf8"');
 		return $pdo;
