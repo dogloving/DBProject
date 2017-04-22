@@ -33,7 +33,7 @@
 		function signup(username,password,gender){
 			//发送ajax请求
 			$.ajax({
-				url: '../../controllers/user/Signup_C.php',
+				url: '../../controllers/user/SignUp_C.php',
 				type: 'post',
 				data:{
 					username:username,
@@ -65,7 +65,7 @@
 		function login(username,password){
 			//发送ajax请求
 			$.ajax({
-				url:'../../controllers/user/Signin_C.php',
+				url:'../../controllers/user/SignIn_C.php',
 				type:'post',
 				data:{
 					username:username,
