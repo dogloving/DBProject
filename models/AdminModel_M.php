@@ -56,10 +56,10 @@
 			$pdo->query($sql);
 		}
 		//将书和类别关系的信息存入数据库中
-		$sql = sprintf("insert into BookCate values('%s','%s')",$bid,$cid);
+		$sql = sprintf("insert into bookcate values('%s','%s')",$bid,$cid);
 		$pdo->query($sql);
 		//将书籍信息存入数据库
-		$sql = sprintf("insert into Book values('%s','%s','%f','%d','%d','%s','%s')",$bid,$name,$price,1,0,$puber,$cate);
+		$sql = sprintf("insert into book values('%s','%s','%f','%d','%d','%s','%s')",$bid,$name,$price,1,0,$puber,$cate);
 		$pdo->query($sql);
 		return 1;
 	}
@@ -75,17 +75,17 @@
   		try{
   			$pdo->beginTransaction();
   			//先删除UserBook中的数据然后删除User
-	  		$sql = sprintf("select User,Book from User,UserBook where Name = '%s' and User = User.UID",$uname);
+	  		$sql = sprintf("select user,Book from user,userbook where Name = '%s' and User = User.UID",$uname);
 	  		$pairs = $pdo->query($sql);//获取所有需要删除的UserBook中的pair
 	  		foreach($pairs as $row){
-	  			$sql = sprintf("delete from UserBook where User = '%s' and Book = '%s'",$row['User'],$row['Book']);
+	  			$sql = sprintf("delete from userbook where user = '%s' and book = '%s'",$row['User'],$row['Book']);
 	  			$result = $pdo->query($sql);
 	  			if(!$result->rowCount()){
 	  				return false;
 	  			}
 	  		}
 	  		//删除User
-	  		$sql = sprintf("delete from User where Name = '%s'",$uname);
+	  		$sql = sprintf("delete from user where Name = '%s'",$uname);
 	  		$result = $pdo->query($sql);
 	  		$pdo->commit();
 	  		if($result->rowCount())
@@ -105,7 +105,7 @@
 	*/
 	function getUser_M(){
 		$pdo = getHandler();
-		$sql = "select * from User";
+		$sql = "select * from user";
 		$result = $pdo->query($sql);
 		return $result->fetchAll();
 	}
@@ -116,7 +116,7 @@
 	*/
 	function delRecord_M($User,$Book,$BrwTime){
 		$pdo = getHandler();
-		$sql = sprintf("delete from UserBook where User = '%s' and Book = '%s' and BrwTime = '%s'",$User,$Book,$BrwTime);
+		$sql = sprintf("delete from userbook where User = '%s' and Book = '%s' and BrwTime = '%s'",$User,$Book,$BrwTime);
 		$result = $pdo->query($sql);
 		if($result->rowCount()){
 			return true;
@@ -131,7 +131,7 @@
 	*/
 	function getRecord(){
 		$pdo = getHandler();
-		$sql = "select User.Name uName,Book.Name bName,BrwTime,RtTime,UserBook.User ubUser,UserBook.Book ubBook from UserBook,User,Book where UserBook.User = User.Name and UserBook.Book = Book.BID";
+		$sql = "select user.Name uName,book.Name bName,BrwTime,RtTime,userbook.User ubUser,userbook.Book ubBook from userbook,user,book where userbook.User = user.Name and userbook.Book = book.BID";
 		$result = $pdo->query($sql);
 		return $result->fetchAll();
 	}
@@ -141,7 +141,7 @@
 	*/
 	function getUserList(){
 		$pdo = getHandler();
-		$sql = "select Name,Gender from User";
+		$sql = "select Name,Gender from user";
 		$result = $pdo->query($sql);
 		return $result->fetchAll();
 	}
@@ -152,7 +152,7 @@
 	*/
 	function getUserRecord($uname){
 		$pdo = getHandler();
-		$sql = sprintf("select * from RecordView where uName = '%s' ",$uname);
+		$sql = sprintf("select * from recordview where uName = '%s' ",$uname);
 		$result = $pdo->query($sql);
 		return $result->fetchAll();
 	}
@@ -172,7 +172,7 @@
 	*/
 	function getPuber(){
 		$pdo = getHandler();
-		$sql = "select Name from Publisher";
+		$sql = "select Name from publisher";
 		$result = $pdo->query($sql);
 		return $result->fetchAll();
 	}
