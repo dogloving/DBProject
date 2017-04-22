@@ -9,8 +9,7 @@
 	}
 
 	$result = getUser_M();
-	echo 'test';
-	//echo urldecode(json_encode(getInfo(101,$result)));
-
+	echo urldecode(json_encode(getInfo(101,$result)));
+	
 
  ?>

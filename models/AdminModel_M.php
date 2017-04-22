@@ -16,7 +16,7 @@
 	function entry_M($name,$price,$cate,$puber){
 		$pdo = getHandler();
 		//先检查数据库中是否已经有该书
-		$sql = sprintf("select * from Book where Name = '%s' and Puber = '%s'",$name,$puber);
+		$sql = sprintf("select * from book where Name = '%s' and Puber = '%s'",$name,$puber);
 
 		$result = $pdo->query($sql);
 		
@@ -25,7 +25,7 @@
 		}
 		$bid = uniqid();
 		//检查数据库中是否存在该出版商，若不存在则插入
-		$sql = sprintf("select * from Publisher where Name = '%s'",$puber);
+		$sql = sprintf("select * from publisher where Name = '%s'",$puber);
 		$result = $pdo->query($sql);
 		if($result->rowCount()){
 			//数据库中已经有该出版商就获取该出版商的PID
@@ -35,15 +35,15 @@
 		}else{
 			//数据库中不存在就将该出版商信息存入数据库中
 			$pid = uniqid();
-			$sql = sprintf("insert into Publisher values('%s','%s')",$pid,$puber);
+			$sql = sprintf("insert into publisher values('%s','%s')",$pid,$puber);
 			$pdo->query($sql);
 		}
 		//将书和出版商关系的信息保存到数据库中
-		$sql = sprintf("insert into BookPuber values('%s','%s')",$bid,$pid);
+		$sql = sprintf("insert into bookpuber values('%s','%s')",$bid,$pid);
 		$pdo->query($sql);
 
 		//检查数据库中是否存在该目录，若不存在则插入
-		$sql = sprintf("select * from Category where Name = '%s'",$cate);
+		$sql = sprintf("select * from category where Name = '%s'",$cate);
 		$result = $pdo->query($sql);
 		if($result->rowCount()){
 			//数据库中已经有该类别就获取该类别的CID
@@ -52,7 +52,7 @@
 			}
 		}else{
 			$cid = uniqid();
-			$sql = sprintf("insert into Category values('%s','%s')",$cid,$cate);
+			$sql = sprintf("insert into category values('%s','%s')",$cid,$cate);
 			$pdo->query($sql);
 		}
 		//将书和类别关系的信息存入数据库中
@@ -75,7 +75,7 @@
   		try{
   			$pdo->beginTransaction();
   			//先删除UserBook中的数据然后删除User
-	  		$sql = sprintf("select user,Book from user,userbook where Name = '%s' and User = User.UID",$uname);
+	  		$sql = sprintf("select user,Book from user,userbook where Name = '%s' and User = user.UID",$uname);
 	  		$pairs = $pdo->query($sql);//获取所有需要删除的UserBook中的pair
 	  		foreach($pairs as $row){
 	  			$sql = sprintf("delete from userbook where user = '%s' and book = '%s'",$row['User'],$row['Book']);
