@@ -11,7 +11,7 @@
 
 	$oldname = $_POST['oldname'];
 	$newname = $_POST['newname'];
-
+	
 	$result = modifyPuber($oldname,$newname);
 	if($result){
 		echo urldecode(json_encode(getInfo(101,"修改成功")));
