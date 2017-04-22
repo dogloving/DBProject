@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="/DBProject/assets/css/base.css">
 	<link rel="stylesheet" href="/DBProject/assets/css/help.css">
 	<style>
-		body{margin:0px;background-image:url('/DBProject/assets/img/background.png');padding-bottom:100px;}
+		body{margin:0px;background-image:url('/DBProject/assets/img/background.webp');padding-bottom:100px;}
 		a{text-decoration: none;}
 		table{border-collapse:collapse;}
 		table th{border:solid 1px;}
