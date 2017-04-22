@@ -36,6 +36,7 @@
 				},
 				success: function(data){
 					try{
+						alert(data);
 						data = JSON.parse(data);
 					}catch(e){
 						alert('delUser error');
@@ -66,6 +67,7 @@
 				},
 				success: function(data){
 					try{
+						alert(data);
 						data = JSON.parse(data);
 					}catch(e){
 						alert('getUser error');
@@ -105,6 +107,7 @@
 				},
 				success: function(data){
 					try{
+						alert(data);
 						data = JSON.parse(data);
 					}catch(e){
 						alert('getRecord error');

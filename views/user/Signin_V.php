@@ -39,6 +39,7 @@
 			},
 			success:function(data){
 				try{
+					alert(data);
 					data = JSON.parse(data);
 				}catch(e){
 					console.log(e);
