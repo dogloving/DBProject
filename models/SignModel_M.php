@@ -1,5 +1,4 @@
 <?php 
-
 	function getHandler(){
 		$host = 'localhost';
 		$database = 'dbproject';

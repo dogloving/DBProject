@@ -25,7 +25,7 @@
 	
 		//ajax请求
 		$.ajax({
-			url: '../../controllers/admin/Entry_C.php',
+			url: '/DBProject/controllers/admin/Entry_C.php',
 			type: 'post',
 			data:{
 				name:name,

@@ -6,11 +6,7 @@
 	</div>
 	<div><table id="userlist" style="margin-top:-90px;margin-left:auto;margin-right:auto;"></table></div>
 	<div><table id="allrecord" style="margin-top:5px;margin-left:auto;margin-right:auto;"></table></div>
-	
-	
-	
 
-	
 	<script>
 		getUser();
 		getRecord();
@@ -61,10 +57,6 @@
 			//从服务器获取所有用户信息并且显示在列表中
 			$.ajax({
 				url: '../../controllers/admin/GetUser_C.php',
-				type: 'post',
-				data:{
-
-				},
 				success: function(data){
 					try{
 						alert(data);
