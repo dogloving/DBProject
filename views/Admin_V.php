@@ -1,4 +1,4 @@
-<?php require('header_V.php'); ?>
+<?php require('Header_V.php'); ?>
 
 	<h1 style="text-align:center;">管理员界面</h1>
 	<div class="outer" style="padding-left:300px;">
@@ -12,4 +12,4 @@
 		header('Location:/DBProject/views/user/Sign_V.php');
 	}
  ?>		
-<?php require('footer_V.php'); ?>
+<?php require('Footer_V.php'); ?>
