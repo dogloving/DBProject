@@ -29,18 +29,16 @@
 				},
 				success: function(data){
 					try{
-						alert(data);
 						data = JSON.parse(data);
 					}catch(e){
-						alert("fuck");
 						console.log(e);
 						return;
 					}
 					if(data.Flag > 0){
-						alert(data.Content);
+						alert('借书成功');	
 						getBook();
 					}else{
-						alert(data.Content);
+						alert('借书失败');
 					}
 
 				}
@@ -55,7 +53,6 @@
 				},
 				success: function(data){
 					try{
-						alert(data);
 						data = JSON.parse(data);
 					}catch(e){
 						console.log(e);

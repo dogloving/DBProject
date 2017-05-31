@@ -31,7 +31,6 @@
 				},
 				success: function(data){
 					try{
-						alert(data);
 						data = JSON.parse(data);
 					}catch(e){
 						console.error(e);
@@ -72,7 +71,6 @@
 				},
 				success: function(data){
 					try{
-						alert(data);
 						data = JSON.parse(data);
 					}catch(e){
 						console.error(e);

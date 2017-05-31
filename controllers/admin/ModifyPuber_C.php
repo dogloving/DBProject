@@ -12,10 +12,10 @@
 	$newname = $_POST['newname'];
 	
 	$result = modifyPuber($oldname,$newname);
-	if($result){
+	if(is_bool($result) && $result){
 		echo urldecode(json_encode(getInfo(101,"修改成功")));
 	}else{
-		echo urldecode(json_encode((getInfo(-9,"修改失败"))));
+		echo urldecode(json_encode(getInfo(-9,$result)));
 	}
 
 

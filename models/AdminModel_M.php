@@ -3,69 +3,54 @@
 		$host = 'localhost';
 		$database = 'dbproject';
 		$username = 'root';
-		$password = 'root';
+		$password = 'mysql930';
 		$pdo = new PDO("mysql:host=$host;dbname=$database",$username,$password);
+		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$pdo->exec('set names "utf8"');
 		return $pdo;
 	}
 
 	/**
 	*	录入书籍信息
-	*	@return 1->录入成功;2->已经存在此书；
+	*	@return true->录入成功
 	*/
 	function entry_M($name,$price,$cate,$puber){
 		$pdo = getHandler();
-		//先检查数据库中是否已经有该书
-		$sql = sprintf("select * from book where Name = '%s' and Puber = '%s'",$name,$puber);
-
-		$result = $pdo->query($sql);
+		try{
+			$bid = uniqid();
+			$sql = sprintf("insert into Book values('%s','%s','%f','%d','%d','%s','%s')",$bid,$name,$price,1,0,$puber,$cate);
+			$pdo->query($sql);
+			//如果上述操作没有违背触发器条件就在书本出版商关系表、书本类别关系表中插入数据
+			//BookPuber表中插入数据
+			$sql = sprintf("select PID from Publisher where Name = '%s'",$puber);
+			$result = $pdo->query($sql);
+			if($result->rowCount()){
+				foreach ($result as $row) {
+					$pid = $row['PID'];
+				}
+			}
+			$sql = sprintf("insert into BookPuber values('%s','%s')",$pid,$puber);
+			$pdo->query($sql);
+			//BookCate表中插入数据
+			$sql = sprintf("select CID from Category where Name = '%s'",$cate);
+			$result = $pdo->query($sql);
+			if($result->rowCount()){
+				foreach ($result as $row) {
+					$pid = $row['CID'];
+				}
+			}
+			$sql = sprintf("insert into BookCate values('%s','%s')",$pid,$cate);
+			$pdo->query($sql);
+			return true;
+		}catch(PDOException $e){
+			//return 2;
+			return $e->getMessage();
+		}
 		
-		if($result->rowCount()){
-			return 2;
-		}
-		$bid = uniqid();
-		//检查数据库中是否存在该出版商，若不存在则插入
-		$sql = sprintf("select * from publisher where Name = '%s'",$puber);
-		$result = $pdo->query($sql);
-		if($result->rowCount()){
-			//数据库中已经有该出版商就获取该出版商的PID
-			foreach($result as $row){
-				$pid = $row['PID'];
-			}
-		}else{
-			//数据库中不存在就将该出版商信息存入数据库中
-			$pid = uniqid();
-			$sql = sprintf("insert into publisher values('%s','%s')",$pid,$puber);
-			$pdo->query($sql);
-		}
-		//将书和出版商关系的信息保存到数据库中
-		$sql = sprintf("insert into bookpuber values('%s','%s')",$bid,$pid);
-		$pdo->query($sql);
-
-		//检查数据库中是否存在该目录，若不存在则插入
-		$sql = sprintf("select * from category where Name = '%s'",$cate);
-		$result = $pdo->query($sql);
-		if($result->rowCount()){
-			//数据库中已经有该类别就获取该类别的CID
-			foreach($result as $row){
-				$cid = $row['CID'];
-			}
-		}else{
-			$cid = uniqid();
-			$sql = sprintf("insert into category values('%s','%s')",$cid,$cate);
-			$pdo->query($sql);
-		}
-		//将书和类别关系的信息存入数据库中
-		$sql = sprintf("insert into bookcate values('%s','%s')",$bid,$cid);
-		$pdo->query($sql);
-		//将书籍信息存入数据库
-		$sql = sprintf("insert into book values('%s','%s','%f','%d','%d','%s','%s')",$bid,$name,$price,1,0,$puber,$cate);
-		$pdo->query($sql);
-		return 1;
 	}
 
 	/**
-	*	删除用户信息
+	*	删除用户借书信息
 	*	@return true:删除成功 false:删除失败
 	*/
 	function delUser_M($uname){
@@ -87,14 +72,18 @@
 	  		//删除User
 	  		$sql = sprintf("delete from user where Name = '%s'",$uname);
 	  		$result = $pdo->query($sql);
+
+	  		//test of rollback
+	  		$sql = 'call test()';
+	  		//$pdo->query($sql);
+
 	  		$pdo->commit();
 	  		if($result->rowCount())
 	  			return true;
   		}catch(PDOException $e){
-  			echo $e->getMessage();
   			//如果事务执行失败就先抛出异常，然后事务回滚，数据库返回之前的状态
   			$pdo->rollback();
-  			return false;
+  			return $e->getMessage();
   		}
 
 	}
@@ -158,13 +147,17 @@
 	}
 	/**
 	*	修改出版商名字
-	*	@return true->修改成功 false->修改失败
 	*/
 	function modifyPuber($oldname,$newname){
 		$pdo = getHandler();
-		$sql = sprintf("call upd_pro('%s','%s')",$oldname,$newname);
-		$result = $pdo->query($sql);
-		return $result;
+		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		try{
+			$sql = sprintf("call upd_pro('%s','%s')",$oldname,$newname);
+			$result = $pdo->query($sql);
+			return $result;
+		}catch(PDOException $e){
+			return $e->getMessage();
+		}
 	}
 	/**
 	*	返回所有出版商的信息

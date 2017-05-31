@@ -9,18 +9,18 @@
 	<table id="user" class="mytable" style="float:right;"></table>
 	<table id="record" class="mytable" style="margin-top:-20px;"></table>
 	<script>
-	getUserList();
+		getUserList();
 		var $btn = $('#btn');
 		$btn.click(function(e){
-			check();
+			check1();
 		});
-		function check(){
+		function check1(){
 			var uname = $('#uname').val().trim();
 			if(uname.length == 0){
 				alert("不能为空");
 				return;
 			}
-			getRecord(uname);
+			getRecord1(uname);
 		}
 		getRecord();
 		var $del = $('#del');
@@ -55,7 +55,6 @@
 				},
 				success: function(data){
 					try{
-						alert(data);
 						data = JSON.parse(data);
 					}catch(e){
 						alert(e);
@@ -70,6 +69,57 @@
 				}
 			})
 		}
+		function getRecord1(uname){
+			$.ajax({
+				url: '../../controllers/user/GetUserRecord_C.php',
+				type: 'post',
+				data:{
+					uname:uname
+				},
+				success: function(data){
+					try{
+						data = JSON.parse(data);
+					}catch(e){
+						alert(e);
+						return;
+					}
+					if(data.Flag){
+						var record = document.getElementById('record');
+						while(record.firstChild){
+							record.removeChild(record.firstChild);
+						}
+						var caption = document.createElement('caption');
+						caption.innerText = "借书记录";
+						caption.setAttribute('class','mycaption');
+						record.appendChild(caption);
+						var tr = document.createElement('tr');
+						var th0 = document.createElement('th');th0.innerText = "编号";tr.appendChild(th0);
+						var th1 = document.createElement('th');th1.innerText = "用户名";tr.appendChild(th1);
+						var th2 = document.createElement('th');th2.innerText = "书名";tr.appendChild(th2);
+						var th3 = document.createElement('th');th3.innerText = "借阅日期";tr.appendChild(th3);
+						var th4 = document.createElement('th');th4.innerText = "还书日期";tr.appendChild(th4);
+						record.appendChild(tr);
+						var records = data.Content;
+						//存储所有记录，方便删除
+						var allRecord = new Array();
+						for(var i = 0;i < records.length;++i){
+							var tr = document.createElement('tr');
+							var td0 = document.createElement('td');td0.innerText = i;tr.appendChild(td0);
+							var td1 = document.createElement('td');td1.innerText = records[i]['uName'];tr.appendChild(td1);
+							var td2 = document.createElement('td');td2.innerText = records[i]['bName'];tr.appendChild(td2);
+							var td3 = document.createElement('td');td3.innerText = records[i]['BrwTime'];tr.appendChild(td3);
+							var td4 = document.createElement('td');td4.innerText = records[i]['RtTime'];tr.appendChild(td4);
+							record.appendChild(tr);
+							var obj = new Object();
+							obj.User = records[i]['ubUser'];obj.Book = records[i]['ubBook'];obj.BrwTime = records[i]['BrwTime'];
+							allRecord.push(obj);
+						}
+						localStorage.setItem('rec',JSON.stringify(allRecord));
+						localStorage.setItem('tSize',allRecord.length);
+					}
+				}
+			})
+		}
 		function getRecord(){
 			$.ajax({
 				url: '../../controllers/admin/GetRecord_C.php',
@@ -79,7 +129,6 @@
 				},
 				success: function(data){
 					try{
-						alert(data);
 						data = JSON.parse(data);
 					}catch(e){
 						alert(e);
@@ -131,7 +180,6 @@
 				},
 				success: function(data){
 					try{
-						alert(data);
 						data = JSON.parse(data);
 					}catch(e){
 						console.error(e);

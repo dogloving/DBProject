@@ -29,7 +29,6 @@
 				},
 				success: function(data){
 					try{
-						alert(data);
 						data = JSON.parse(data);
 					}catch(e){
 						alert('error');
@@ -37,7 +36,6 @@
 						return;
 					}
 					if(data.Flag){
-						alert(data.Content);
 						getMyBook();
 					}else{
 						alert(data.Content);
@@ -55,7 +53,6 @@
 				},
 				success: function(data){
 					try{
-						alert(data);
 						data = JSON.parse(data);
 					}catch(e){
 						console.error(e);

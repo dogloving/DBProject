@@ -12,10 +12,10 @@
 	$uname = $_POST['uname'];
 
 	$result = delUser_M($uname);
-	if($result){
+	if(is_bool($result) && $result){
 		echo urldecode(json_encode(getInfo(101,"删除成功")));
 	}else{
-		echo urldecode(json_encode(getInfo(-4,"删除失败")));
+		echo urldecode(json_encode(getInfo(-4,$result)));
 	}
 
 

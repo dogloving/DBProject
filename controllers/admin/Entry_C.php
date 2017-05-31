@@ -21,10 +21,10 @@
 	//  echo urldecode(json_encode(getInfo(101,$result)));
 	// return;
 	$result = entry_M($name,$price,$cate,$puber);
-	if($result == 1){
+	if(is_bool($result) && $result){
 		echo urldecode(json_encode(getInfo(101,"录入成功")));
-	}else if($result == 2){
-		echo urldecode(json_encode(getInfo(-3,"数据库中已经有该书")));
+	}else{
+		echo urldecode(json_encode(getInfo(-3,$result)));
 	}
 
  ?>

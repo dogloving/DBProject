@@ -15,7 +15,7 @@
 	function check(){
 		var name = $('#name').val().trim();if(name.length == 0){alert('书籍名称不能为空');return;}
 		var price = $('#price').val().trim();if(price.length == 0){alert('书籍价格不能为空');return;}
-		if(price < 0){alert("价格不能为负");return;}
+		//if(price < 0){alert("价格不能为负");return;}
 		var cate = $('#cate').val().trim();if(cate.length == 0){alert('书籍类别不能为空');return;}
 		var puber = $('#puber').val().trim();if(puber.length == 0){alert('书籍出版商不能为空');return;}
 		submit(name,price,cate,puber);
@@ -35,29 +35,25 @@
 			},
 			success:function(data){
 				try{
-					alert(data);
 					data = JSON.parse(data);
 				}catch(e){
-					alert("wrong");
-					console.log(data);
-					console.log(e);
-					return;
+					alert(data);
+					alert('录入失败');
 				}
 				if(data.Flag < 0){
-					alert(data.Content);
+					alert(data.Content);	
+					alert('录入失败');
 				}else if(data.Flag > 0){
-					alert(data.Content);
+					alert('录入成功');
 				}
 			},
 			error:function(data){
 				try{
-					alert(data);
 					data = JSON.parse(data);
 				}catch(e){
 					console.log(e);
 					return;
 				}
-				alert(data);
 
 			}
 		})

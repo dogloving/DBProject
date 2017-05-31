@@ -39,7 +39,6 @@
 			},
 			success:function(data){
 				try{
-					alert(data);
 					data = JSON.parse(data);
 				}catch(e){
 					console.log(e);
@@ -51,7 +50,6 @@
 					alert("账号或密码错误");
 					return;
 				}else{
-					alert("允许登陆");
 					if(data.Content == 1){
 						window.location.href = '../User_V.php';	
 					}else{

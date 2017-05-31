@@ -32,19 +32,18 @@
 				},
 				success: function(data){
 					try{
-						alert(data);
 						data = JSON.parse(data);
 					}catch(e){
 						alert('delUser error');
 						alert(e);
 						return;
 					}
-					if(data.Flag){
-						alert(data.Content);
+					if(data.Flag > 0){
 						getUser();
 						getRecord();
 					}else{
 						alert(data.Content);
+						alert('删除失败');
 					}
 				},
 				error:function(data){
@@ -59,7 +58,6 @@
 				url: '../../controllers/admin/GetUser_C.php',
 				success: function(data){
 					try{
-						alert(data);
 						data = JSON.parse(data);
 					}catch(e){
 						alert('getUser error');
@@ -99,7 +97,6 @@
 				},
 				success: function(data){
 					try{
-						alert(data);
 						data = JSON.parse(data);
 					}catch(e){
 						alert('getRecord error');

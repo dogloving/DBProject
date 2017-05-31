@@ -20,10 +20,10 @@
 				return;
 			}
 			var names = localStorage['pubernames'];
-			if(names.indexOf(oldname) == -1 || names.indexOf(newname) != -1){
-				alert('无效更改');
-				return;
-			}
+			//if(names.indexOf(oldname) == -1 || names.indexOf(newname) != -1){
+			//	alert('无效更改');
+			//	return;
+			//}
 			modify(oldname,newname);
 		}
 		function modify(oldname,newname){
@@ -36,14 +36,19 @@
 				},
 				success: function(data){
 					try{
-						alert(data);
 						data = JSON.parse(data);
 					}catch(e){
-						console.error(e);
+						alert(e);
 						return;
 					}
-					alert(data.Content);
-					getPuber();
+					if(data.Flag > 0){
+						alert(data.Content);
+						getPuber();
+					}else{
+						alert(data.Content);
+						alert('修改失败');
+					}
+					
 				}
 			})
 		}
@@ -56,7 +61,6 @@
 				},
 				success:function(data){
 					try{
-						alert(data);
 						data =  JSON.parse(data);
 					}catch(e){
 						console.error(e);
